@@ -15,19 +15,19 @@ public class GoldenKnight {
                 + "|____/ \\__,_|_|\\_\\___|\n";
 
         String Lvl0 = "_______________________________________\n"
-                + "Hello! I'm the Golden Knight! \n"
-                + "What can I do for you? \n"
+                + "Hello! I'm the Golden Knight!\n"
+                + "What can I do for you?\n"
                 + "_______________________________________\n"
                 + " Bye. Hope to see you again soon! \n"
                 + "_______________________________________\n";
 
         String greeting = "_______________________________________\n"
-                + "Hello! I'm the Golden Knight! \n"
-                + "What can I do for you? \n"
+                + "Hello! I'm the Golden Knight!\n"
+                + "What can I do for you?\n"
                 + "_______________________________________\n";
 
         String goodbye = "_______________________________________\n"
-                + " Bye. Hope to see you again soon! \n"
+                + " Bye. Hope to see you again soon!\n"
                 + "_______________________________________\n";
 
         String line = "_______________________________________\n";
@@ -105,6 +105,6 @@ public class GoldenKnight {
     }
 
     private static void printLine() {
-        System.out.println("____________________________________________________________");
+        System.out.println("_______________________________________");
     }
 }
