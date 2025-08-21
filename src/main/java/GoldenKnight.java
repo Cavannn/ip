@@ -8,19 +8,6 @@ public class GoldenKnight {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Task> items = new ArrayList<>();
 
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-
-        String Lvl0 = "_______________________________________\n"
-                + "Hello! I'm the Golden Knight!\n"
-                + "What can I do for you?\n"
-                + "_______________________________________\n"
-                + " Bye. Hope to see you again soon! \n"
-                + "_______________________________________\n";
-
         String greeting = "_______________________________________\n"
                 + "Hello! I'm the Golden Knight!\n"
                 + "What can I do for you?\n"
@@ -36,64 +23,92 @@ public class GoldenKnight {
 
         while (true) {
             String input = scanner.nextLine();
-            String[] parts = input.split(" ", 2);
-            String command = parts[0];
-
-            if (command.equals("bye")) {
-                System.out.println(goodbye);
-                break;
-            } else if (command.equals("list")) {
-                System.out.println(line);
-                System.out.println(" Here are the tasks in your list:");
-                for (int i = 0; i < items.size(); i++) {
-                    System.out.println(" " + (i + 1) + ". " + items.get(i));
+            try {
+                if (input.trim().isEmpty()) {
+                    throw new DukeException("OOPS!!! You entered an empty command.");
                 }
-                System.out.println(line);
-            } else if (command.equals("mark")) {
-                int taskNo = Integer.parseInt(parts[1]) - 1;
-                Task task = items.get(taskNo);
-                task.markAsDone();
-                System.out.println(line);
-                System.out.println(" Nice! I've marked this task as done:");
-                System.out.println(task);
-                System.out.println(line);
-            } else if (command.equals("unmark")) {
-                int taskNo = Integer.parseInt(parts[1]) - 1;
-                Task task = items.get(taskNo);
-                task.MarkAsNotDone();
-                System.out.println(line);
-                System.out.println(" OK, I've marked this task as not done yet:");
-                System.out.println(task);
-                System.out.println(line);
-            } else if (command.equals("todo")) {
-                String description = parts[1];
-                Task task = new Todo(description);
-                items.add(task);
-                printAdded(task, items.size());
-            } else if (command.equals("deadline")) {
-                String[] details = parts[1].split(" /by ", 2);
-                String description = details[0];
-                String by = details[1];
-                Task task = new Deadline(description, by);
-                items.add(task);
-                printAdded(task, items.size());
-            } else if (command.equals("event")) {
-                String[] details = parts[1].split(" /from | /to ", 3);
-                String description = details[0];
-                String from = details[1];
-                String to = details[2];
-                Task task = new Event(description, from, to);
-                items.add(task);
-                printAdded(task, items.size());
-            } else {
-                System.out.println(line);
-                System.out.println(" OOPS! I don't know what that means.");
-                System.out.println(line);
+
+                String[] parts = input.split(" ", 2);
+                String command = parts[0];
+
+                if (command.equals("bye")) {
+                    System.out.print(goodbye);
+                    break;
+
+                } else if (command.equals("list")) {
+                    System.out.print(line);
+                    System.out.println(" Here are the tasks in your list:");
+                    for (int i = 0; i < items.size(); i++) {
+                        System.out.println(" " + (i + 1) + ". " + items.get(i));
+                    }
+                    System.out.print(line);
+
+                } else if (command.equals("mark") || command.equals("unmark")) {
+                    if (parts.length < 2) {
+                        throw new DukeException("OOPS!!! Please specify the task number to " + command + ".");
+                    }
+                    int taskNo;
+                    try {
+                        taskNo = Integer.parseInt(parts[1]) - 1;
+                    } catch (NumberFormatException e) {
+                        throw new DukeException("OOPS!!! Task number must be an integer.");
+                    }
+                    if (taskNo < 0 || taskNo >= items.size()) {
+                        throw new DukeException("OOPS!!! Task number is out of range.");
+                    }
+                    Task task = items.get(taskNo);
+                    if (command.equals("mark")) {
+                        task.markAsDone();
+                        System.out.print(line);
+                        System.out.println(" Nice! I've marked this task as done:");
+                        System.out.println(" " + task);
+                        System.out.print(line);
+                    } else {
+                        task.markAsNotDone();
+                        System.out.print(line);
+                        System.out.println(" OK, I've marked this task as not done yet:");
+                        System.out.println(" " + task);
+                        System.out.print(line);
+                    }
+
+                } else if (command.equals("todo")) {
+                    if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                        throw new DukeException("OOPS!!! The description of a todo cannot be empty.");
+                    }
+                    Task task = new Todo(parts[1]);
+                    items.add(task);
+                    printAdded(task, items.size());
+
+                } else if (command.equals("deadline")) {
+                    if (parts.length < 2 || !parts[1].contains("/by")) {
+                        throw new DukeException("OOPS!!! The deadline command must include /by.");
+                    }
+                    String[] details = parts[1].split(" /by ", 2);
+                    Task task = new Deadline(details[0], details[1]);
+                    items.add(task);
+                    printAdded(task, items.size());
+
+                } else if (command.equals("event")) {
+                    if (parts.length < 2 || !parts[1].contains("/from") || !parts[1].contains("/to")) {
+                        throw new DukeException("OOPS!!! The event command must include /from and /to.");
+                    }
+                    String[] details = parts[1].split(" /from | /to ", 3);
+                    Task task = new Event(details[0], details[1], details[2]);
+                    items.add(task);
+                    printAdded(task, items.size());
+
+                } else {
+                    throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                }
+
+            } catch (DukeException e) {
+                System.out.print(line);
+                System.out.println(" " + e.getMessage());
+                System.out.print(line);
             }
         }
 
         scanner.close();
-
     }
 
     private static void printAdded(Task task, int total) {
@@ -106,5 +121,12 @@ public class GoldenKnight {
 
     private static void printLine() {
         System.out.println("_______________________________________");
+    }
+}
+
+// Custom exception class
+class DukeException extends Exception {
+    public DukeException(String message) {
+        super(message);
     }
 }
