@@ -70,7 +70,6 @@ public class GoldenKnight {
                         System.out.println(" " + task);
                         System.out.print(line);
                     }
-
                 } else if (command.equals("todo")) {
                     if (parts.length < 2 || parts[1].trim().isEmpty()) {
                         throw new DukeException("OOPS!!! The description of a todo cannot be empty.");
@@ -78,7 +77,6 @@ public class GoldenKnight {
                     Task task = new Todo(parts[1]);
                     items.add(task);
                     printAdded(task, items.size());
-
                 } else if (command.equals("deadline")) {
                     if (parts.length < 2 || !parts[1].contains("/by")) {
                         throw new DukeException("OOPS!!! The deadline command must include /by.");
@@ -87,7 +85,6 @@ public class GoldenKnight {
                     Task task = new Deadline(details[0], details[1]);
                     items.add(task);
                     printAdded(task, items.size());
-
                 } else if (command.equals("event")) {
                     if (parts.length < 2 || !parts[1].contains("/from") || !parts[1].contains("/to")) {
                         throw new DukeException("OOPS!!! The event command must include /from and /to.");
@@ -96,7 +93,26 @@ public class GoldenKnight {
                     Task task = new Event(details[0], details[1], details[2]);
                     items.add(task);
                     printAdded(task, items.size());
+                } else if (command.equals("delete")) {
+                    if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                        throw new DukeException("OOPS!!! Please specify the task number to delete.");
+                    }
+                    int taskNo;
+                    try {
+                        taskNo = Integer.parseInt(parts[1]) - 1;
+                    } catch (NumberFormatException e) {
+                        throw new DukeException("OOPS!!! Task number must be an integer.");
+                    }
+                    if (taskNo < 0 || taskNo >= items.size()) {
+                        throw new DukeException("OOPS!!! Task number is out of range.");
+                    }
 
+                    Task removedTask = items.remove(taskNo); // remove from ArrayList
+                    printLine();
+                    System.out.println(" Noted. I've removed this task:");
+                    System.out.println("   " + removedTask);
+                    System.out.println(" Now you have " + items.size() + " tasks in the list.");
+                    printLine();
                 } else {
                     throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
