@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class GoldenKnight {
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -64,16 +65,46 @@ public class GoldenKnight {
                 System.out.println(" OK, I've marked this task as not done yet:");
                 System.out.println(task);
                 System.out.println(line);
+            } else if (command.equals("todo")) {
+                String description = parts[1];
+                Task task = new Todo(description);
+                items.add(task);
+                printAdded(task, items.size());
+            } else if (command.equals("deadline")) {
+                String[] details = parts[1].split(" /by ", 2);
+                String description = details[0];
+                String by = details[1];
+                Task task = new Deadline(description, by);
+                items.add(task);
+                printAdded(task, items.size());
+            } else if (command.equals("event")) {
+                String[] details = parts[1].split(" /from | /to ", 3);
+                String description = details[0];
+                String from = details[1];
+                String to = details[2];
+                Task task = new Event(description, from, to);
+                items.add(task);
+                printAdded(task, items.size());
             } else {
-                Task newTask = new Task(input);
-                items.add(newTask);
                 System.out.println(line);
-                System.out.println(" added: " + newTask);
+                System.out.println(" OOPS! I don't know what that means.");
                 System.out.println(line);
             }
         }
 
         scanner.close();
 
+    }
+
+    private static void printAdded(Task task, int total) {
+        printLine();
+        System.out.println(" Got it. I've added this task:");
+        System.out.println("   " + task);
+        System.out.println(" Now you have " + total + " tasks in the list.");
+        printLine();
+    }
+
+    private static void printLine() {
+        System.out.println("____________________________________________________________");
     }
 }
