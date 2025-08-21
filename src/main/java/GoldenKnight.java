@@ -79,10 +79,15 @@ public class GoldenKnight {
                     printAdded(task, items.size());
                 } else if (command.equals("deadline")) {
                     if (parts.length < 2 || !parts[1].contains("/by")) {
-                        throw new DukeException("OOPS!!! The deadline command must include /by.");
+                        throw new DukeException("OOPS!!! The deadline command must include a description and /by.");
                     }
                     String[] details = parts[1].split(" /by ", 2);
-                    Task task = new Deadline(details[0], details[1]);
+                    if (details.length < 2 || details[0].trim().isEmpty()) {
+                        throw new DukeException("OOPS!!! The description of a deadline cannot be empty.");
+                    }
+                    String description = details[0];
+                    String by = details[1];
+                    Task task = new Deadline(description, by);
                     items.add(task);
                     printAdded(task, items.size());
                 } else if (command.equals("event")) {

@@ -1,29 +1,28 @@
 public class Task {
-    private String description;
-    private boolean isDone;
+    protected String description;
+    protected boolean isDone;
+    protected TaskType type; // <-- enum added
 
-    public Task(String description) {
+    public Task(TaskType type, String description) {
+        this.type = type;
         this.description = description;
         this.isDone = false;
     }
 
-    public String getStatus() {
-        return (isDone
-                ? "X"
-                : " ");
-    }
-
     public void markAsDone() {
-        this.isDone = true;
+        isDone = true;
     }
 
     public void markAsNotDone() {
-        this.isDone = false;
+        isDone = false;
+    }
+
+    public String getStatusIcon() {
+        return (isDone ? "X" : " ");
     }
 
     @Override
     public String toString() {
-        return "[" + getStatus() + "] " + description;
+        return "[" + type.getCode() + "][" + getStatusIcon() + "] " + description;
     }
-
 }
