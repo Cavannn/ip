@@ -1,5 +1,10 @@
+import java.util.Scanner;
+
 public class GoldenKnight {
     public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -13,6 +18,35 @@ public class GoldenKnight {
                 + " Bye. Hope to see you again soon! \n"
                 + "_______________________________________\n";
 
-        System.out.println(Lvl0);
+        String greeting = "_______________________________________\n"
+                + "Hello! I'm the Golden Knight! \n"
+                + "What can I do for you? \n"
+                + "_______________________________________\n";
+
+        String goodbye = "_______________________________________\n"
+                + " Bye. Hope to see you again soon! \n"
+                + "_______________________________________\n";
+
+        System.out.print(greeting);
+
+        while (true) {
+
+            String input = scanner.nextLine();
+
+            // Exit
+            if (input.equals("bye")) {
+                System.out.println(goodbye);
+                break;
+            }
+
+            // Echo
+            System.out.println("_______________________________________");
+            System.out.println(" " + input);
+            System.out.println("_______________________________________");
+        }
+
+        scanner.close();
+
     }
+
 }
