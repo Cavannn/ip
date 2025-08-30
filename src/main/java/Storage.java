@@ -17,8 +17,7 @@ public class Storage {
 
         try {
             if (!file.exists()) {
-                // Create folder if missing
-                file.getParentFile().mkdirs();
+                if (file.getParentFile() != null) file.getParentFile().mkdirs();
                 file.createNewFile();
                 return tasks;
             }
@@ -28,7 +27,22 @@ public class Storage {
                 String line = sc.nextLine().trim();
                 if (!line.isEmpty()) {
                     try {
-                        tasks.add(Task.fromFileFormat(line));
+                        String[] parts = line.split(" \\| ");
+                        switch (parts[0]) {
+                            case "T":
+                                Todo t = new Todo(parts[2]);
+                                if (parts[1].equals("1")) t.markAsDone();
+                                tasks.add(t);
+                                break;
+                            case "D":
+                                tasks.add(Deadline.fromFileFormat(parts));
+                                break;
+                            case "E":
+                                tasks.add(Event.fromFileFormat(parts));
+                                break;
+                            default:
+                                System.out.println("⚠ Unknown task type: " + parts[0]);
+                        }
                     } catch (Exception e) {
                         System.out.println("⚠ Skipping corrupted line: " + line);
                     }
@@ -44,6 +58,10 @@ public class Storage {
 
     public void save(ArrayList<Task> tasks) {
         try {
+            if (new File(filePath).getParentFile() != null) {
+                new File(filePath).getParentFile().mkdirs();
+            }
+
             FileWriter fw = new FileWriter(filePath);
             for (Task t : tasks) {
                 fw.write(t.toFileFormat() + System.lineSeparator());

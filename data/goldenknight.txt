@@ -1,3 +1,2 @@
-T | 0 | borrow book
-D | 0 | return book
-E | 0 | project meeting
+D | 0 | return book | 2/12/2020 1900
+E | 0 | meeting | 3/4/2020 1000 | 3/4/2020 1900
