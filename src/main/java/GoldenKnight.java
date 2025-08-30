@@ -1,12 +1,17 @@
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GoldenKnight {
+
+    private static final String FILE_PATH = "./data/goldenknight.txt";
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> items = new ArrayList<>();
+        Storage storage = new Storage(FILE_PATH);
+
+        // Load existing tasks
+        ArrayList<Task> items = storage.load();
 
         String greeting = "_______________________________________\n"
                 + "Hello! I'm the Golden Knight!\n"
@@ -70,6 +75,8 @@ public class GoldenKnight {
                         System.out.println(" " + task);
                         System.out.print(line);
                     }
+                    storage.save(items); // save changes
+
                 } else if (command.equals("todo")) {
                     if (parts.length < 2 || parts[1].trim().isEmpty()) {
                         throw new DukeException("OOPS!!! The description of a todo cannot be empty.");
@@ -77,6 +84,8 @@ public class GoldenKnight {
                     Task task = new Todo(parts[1]);
                     items.add(task);
                     printAdded(task, items.size());
+                    storage.save(items);
+
                 } else if (command.equals("deadline")) {
                     if (parts.length < 2 || !parts[1].contains("/by")) {
                         throw new DukeException("OOPS!!! The deadline command must include a description and /by.");
@@ -90,6 +99,8 @@ public class GoldenKnight {
                     Task task = new Deadline(description, by);
                     items.add(task);
                     printAdded(task, items.size());
+                    storage.save(items);
+
                 } else if (command.equals("event")) {
                     if (parts.length < 2 || !parts[1].contains("/from") || !parts[1].contains("/to")) {
                         throw new DukeException("OOPS!!! The event command must include /from and /to.");
@@ -98,6 +109,8 @@ public class GoldenKnight {
                     Task task = new Event(details[0], details[1], details[2]);
                     items.add(task);
                     printAdded(task, items.size());
+                    storage.save(items);
+
                 } else if (command.equals("delete")) {
                     if (parts.length < 2 || parts[1].trim().isEmpty()) {
                         throw new DukeException("OOPS!!! Please specify the task number to delete.");
@@ -112,12 +125,15 @@ public class GoldenKnight {
                         throw new DukeException("OOPS!!! Task number is out of range.");
                     }
 
-                    Task removedTask = items.remove(taskNo); // remove from ArrayList
+                    Task removedTask = items.remove(taskNo);
                     printLine();
                     System.out.println(" Noted. I've removed this task:");
                     System.out.println("   " + removedTask);
                     System.out.println(" Now you have " + items.size() + " tasks in the list.");
                     printLine();
+
+                    storage.save(items);
+
                 } else {
                     throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
