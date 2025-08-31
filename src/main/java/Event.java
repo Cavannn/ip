@@ -13,21 +13,22 @@ public class Event extends Task {
         this.toDateTime = LocalDateTime.parse(to, INPUT_FORMAT);
     }
 
-    @Override
     public String toString() {
-        return super.toString() + " (from: " + fromDateTime.format(OUTPUT_FORMAT) +
-                " to: " + toDateTime.format(OUTPUT_FORMAT) + ")";
+        String var10000 = super.toString();
+        return var10000 + " (from: " + this.fromDateTime.format(OUTPUT_FORMAT) + " to: " + this.toDateTime.format(OUTPUT_FORMAT) + ")";
     }
 
-    @Override
     public String toFileFormat() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " +
-                fromDateTime.format(INPUT_FORMAT) + " | " + toDateTime.format(INPUT_FORMAT);
+        String var10000 = this.isDone ? "1" : "0";
+        return "E | " + var10000 + " | " + this.description + " | " + this.fromDateTime.format(INPUT_FORMAT) + " | " + this.toDateTime.format(INPUT_FORMAT);
     }
 
     public static Event fromFileFormat(String[] parts) {
         Event e = new Event(parts[2], parts[3], parts[4]);
-        if (parts[1].equals("1")) e.markAsDone();
+        if (parts[1].equals("1")) {
+            e.markAsDone();
+        }
+
         return e;
     }
 }

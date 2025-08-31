@@ -11,19 +11,22 @@ public class Deadline extends Task {
         this.byDateTime = LocalDateTime.parse(by, INPUT_FORMAT);
     }
 
-    @Override
     public String toString() {
-        return super.toString() + " (by: " + byDateTime.format(OUTPUT_FORMAT) + ")";
+        String var10000 = super.toString();
+        return var10000 + " (by: " + this.byDateTime.format(OUTPUT_FORMAT) + ")";
     }
 
-    @Override
     public String toFileFormat() {
-        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + byDateTime.format(INPUT_FORMAT);
+        String var10000 = this.isDone ? "1" : "0";
+        return "D | " + var10000 + " | " + this.description + " | " + this.byDateTime.format(INPUT_FORMAT);
     }
 
     public static Deadline fromFileFormat(String[] parts) {
         Deadline d = new Deadline(parts[2], parts[3]);
-        if (parts[1].equals("1")) d.markAsDone();
+        if (parts[1].equals("1")) {
+            d.markAsDone();
+        }
+
         return d;
     }
 }
