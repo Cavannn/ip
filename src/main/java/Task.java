@@ -10,40 +10,41 @@ public class Task {
     }
 
     public void markAsDone() {
-        isDone = true;
+        this.isDone = true;
     }
 
     public void markAsNotDone() {
-        isDone = false;
+        this.isDone = false;
     }
 
     public String getStatusIcon() {
-        return (isDone ? "X" : " ");
+        return this.isDone ? "X" : " ";
     }
 
-    @Override
     public String toString() {
-        return "[" + type.getCode() + "][" + getStatusIcon() + "] " + description;
+        String var10000 = this.type.getCode();
+        return "[" + var10000 + "][" + this.getStatusIcon() + "] " + this.description;
     }
 
     public String toFileFormat() {
-        return type.getCode() + " | " + (isDone ? "1" : "0") + " | " + description;
+        String var10000 = this.type.getCode();
+        return var10000 + " | " + (this.isDone ? "1" : "0") + " | " + this.description;
     }
 
     public static Task fromFileFormat(String line) {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
             throw new IllegalArgumentException("Invalid task format: " + line);
-        }
+        } else {
+            TaskType type = TaskType.fromCode(parts[0]);
+            boolean isDone = parts[1].equals("1");
+            String description = parts[2];
+            Task task = new Task(type, description);
+            if (isDone) {
+                task.markAsDone();
+            }
 
-        TaskType type = TaskType.fromCode(parts[0]);
-        boolean isDone = parts[1].equals("1");
-        String description = parts[2];
-
-        Task task = new Task(type, description);
-        if (isDone) {
-            task.markAsDone();
+            return task;
         }
-        return task;
     }
 }
