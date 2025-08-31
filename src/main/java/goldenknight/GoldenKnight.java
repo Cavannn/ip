@@ -1,3 +1,11 @@
+package goldenknight;
+
+import goldenknight.exception.DukeException;
+import goldenknight.parser.Parser;
+import goldenknight.storage.Storage;
+import goldenknight.task.TaskList;
+import goldenknight.ui.Ui;
+
 public class GoldenKnight {
 
     private Storage storage;
