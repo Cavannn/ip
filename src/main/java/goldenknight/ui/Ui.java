@@ -1,3 +1,8 @@
+package goldenknight.ui;
+
+import goldenknight.exception.DukeException;
+import goldenknight.task.*;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -52,10 +57,10 @@ public class Ui {
         try {
             taskNo = Integer.parseInt(parts[1]) - 1;
         } catch (NumberFormatException e) {
-            throw new DukeException("OOPS!!! Task number must be an integer.");
+            throw new DukeException("OOPS!!! goldenknight.task.Task number must be an integer.");
         }
         if (taskNo < 0 || taskNo >= tasks.size()) {
-            throw new DukeException("OOPS!!! Task number is out of range.");
+            throw new DukeException("OOPS!!! goldenknight.task.Task number is out of range.");
         }
         Task task = tasks.get(taskNo);
         if (command.equals("mark")) {
@@ -113,10 +118,10 @@ public class Ui {
         try {
             taskNo = Integer.parseInt(parts[1]) - 1;
         } catch (NumberFormatException e) {
-            throw new DukeException("OOPS!!! Task number must be an integer.");
+            throw new DukeException("OOPS!!! goldenknight.task.Task number must be an integer.");
         }
         if (taskNo < 0 || taskNo >= tasks.size()) {
-            throw new DukeException("OOPS!!! Task number is out of range.");
+            throw new DukeException("OOPS!!! goldenknight.task.Task number is out of range.");
         }
         Task removedTask = tasks.delete(taskNo);
         showLine();

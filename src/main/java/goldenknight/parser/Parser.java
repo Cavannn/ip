@@ -1,3 +1,7 @@
+package goldenknight.parser;
+
+import goldenknight.exception.DukeException;
+
 public class Parser {
     public static String[] parse(String input) throws DukeException {
         if (input.trim().isEmpty()) {

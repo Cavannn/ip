@@ -1,4 +1,4 @@
-# GoldenKnight User Guide
+# goldenknight.GoldenKnight User Guide
 
 // Update the title above to match the actual product name
 

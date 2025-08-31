@@ -1,3 +1,10 @@
+package goldenknight.storage;
+
+import goldenknight.task.Deadline;
+import goldenknight.task.Event;
+import goldenknight.task.Task;
+import goldenknight.task.Todo;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
