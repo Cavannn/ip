@@ -16,17 +16,14 @@ public enum TaskType {
     }
 
     public static TaskType fromCode(String code) {
-        switch (code) {
-            case "T" -> {
-                return TODO;
-            }
-            case "D" -> {
-                return DEADLINE;
-            }
-            case "E" -> {
-                return EVENT;
-            }
-            default -> throw new IllegalArgumentException("Invalid task type code: " + code);
+        if (code == null) {
+            throw new IllegalArgumentException("Task type code cannot be null");
         }
+        return switch (code) {
+            case "T" -> TODO;
+            case "D" -> DEADLINE;
+            case "E" -> EVENT;
+            default -> throw new IllegalArgumentException("Invalid task type code: " + code);
+        };
     }
 }

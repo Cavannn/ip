@@ -49,4 +49,9 @@ public class Task {
             return task;
         }
     }
+
+    public boolean isDone() {
+        return this.isDone;
+    }
+
 }
