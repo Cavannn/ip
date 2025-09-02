@@ -23,6 +23,14 @@ public class Task {
         return this.isDone ? "X" : " ";
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
+    public boolean isDone() {
+        return this.isDone;
+    }
+
     @Override
     public String toString() {
         return "[" + this.type.getCode() + "][" + this.getStatusIcon() + "] " + this.description;
@@ -32,13 +40,6 @@ public class Task {
         return this.type.getCode() + " | " + (this.isDone ? "1" : "0") + " | " + this.description;
     }
 
-    /**
-     * Factory method to create the correct Task subclass from a file format line.
-     *
-     * @param line The line from file in the format TYPE | isDone | description | [date info]
-     * @return A Task, Todo, Deadline, or Event object.
-     * @throws IllegalArgumentException if the line is invalid or the task type code is unrecognized
-     */
     public static Task fromFileFormat(String line) {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
@@ -46,19 +47,33 @@ public class Task {
         }
 
         TaskType type = TaskType.fromCode(parts[0]);
+        boolean isDone = parts[1].equals("1");
+        String description = parts[2];
 
-        return switch (type) {
-            case TODO -> {
-                Todo todo = new Todo(parts[2]);
-                if ("1".equals(parts[1])) todo.markAsDone();
-                yield todo;
-            }
-            case DEADLINE -> Deadline.fromFileFormat(parts);
-            case EVENT -> Event.fromFileFormat(parts);
-        };
-    }
+        Task task;
+        switch (type) {
+        case TODO:
+            task = new Todo(description);
+            break;
+        case DEADLINE:
+            // deadline info is in parts[3] if available
+            task = new Deadline(description, parts.length > 3 ? parts[3] : "");
+            break;
+        case EVENT:
+            task = new Event(
+                    description,
+                    parts.length > 3 ? parts[3] : "",
+                    parts.length > 4 ? parts[4] : ""
+            );
+            break;
 
-    public boolean isDone() {
-        return this.isDone;
+        default:
+            throw new IllegalArgumentException("Unknown task type: " + type);
+        }
+
+        if (isDone) {
+            task.markAsDone();
+        }
+        return task;
     }
 }

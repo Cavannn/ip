@@ -149,6 +149,27 @@ public class Ui {
         return taskNo;
     }
 
+    public void handleFind(TaskList tasks, String[] parts) throws DukeException {
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new DukeException("OOPS!!! The find command requires a keyword.");
+        }
+        String keyword = parts[1].trim();
+        showLine();
+        System.out.println(" Here are the matching tasks in your list:");
+        int count = 1;
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.getDescription().contains(keyword)) {
+                System.out.println(" " + count + ". " + task);
+                count++;
+            }
+        }
+        if (count == 1) {
+            System.out.println(" No matching tasks found.");
+        }
+        showLine();
+    }
+
     private void printAdded(Task task, int total) {
         printMessage("Got it. I've added this task:", task);
         System.out.println("Now you have " + total + " tasks in the list.");

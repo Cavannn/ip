@@ -3,33 +3,21 @@ package goldenknight;
 import goldenknight.exception.DukeException;
 import goldenknight.parser.Parser;
 import goldenknight.storage.Storage;
-import goldenknight.task.Task;
 import goldenknight.task.TaskList;
 import goldenknight.ui.Ui;
 
-import java.util.ArrayList;
-
 public class GoldenKnight {
 
-    private static final String CMD_BYE = "bye";
-    private static final String CMD_LIST = "list";
-    private static final String CMD_MARK = "mark";
-    private static final String CMD_UNMARK = "unmark";
-    private static final String CMD_TODO = "todo";
-    private static final String CMD_DEADLINE = "deadline";
-    private static final String CMD_EVENT = "event";
-    private static final String CMD_DELETE = "delete";
+    private Storage storage;
+    private TaskList tasks;
+    private Ui ui;
 
-    private final Storage storage;
-    private final TaskList tasks;
-    private final Ui ui;
+    private static final String CMD_FIND = "find";
 
     public GoldenKnight(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
-
-        ArrayList<Task> loadedTasks = storage.load();
-        tasks = new TaskList(loadedTasks != null ? loadedTasks : new ArrayList<>());
+        tasks = new TaskList(storage.load());
     }
 
     public void run() {
@@ -43,42 +31,53 @@ public class GoldenKnight {
                 String command = parts[0];
 
                 switch (command) {
-                case CMD_BYE -> {
+                case "bye":
                     ui.showGoodbye();
                     isExit = true;
-                }
-                case CMD_LIST -> ui.showTaskList(tasks);
-                case CMD_MARK, CMD_UNMARK -> {
+                    break;
+
+                case "list":
+                    ui.showTaskList(tasks);
+                    break;
+
+                case "mark":
+                case "unmark":
                     ui.handleMarkUnmark(tasks, parts, command);
-                    saveTasks();
-                }
-                case CMD_TODO -> {
+                    storage.save(tasks.getAll());
+                    break;
+
+                case "todo":
                     ui.handleAddTodo(tasks, parts);
-                    saveTasks();
-                }
-                case CMD_DEADLINE -> {
+                    storage.save(tasks.getAll());
+                    break;
+
+                case "deadline":
                     ui.handleAddDeadline(tasks, parts);
-                    saveTasks();
-                }
-                case CMD_EVENT -> {
+                    storage.save(tasks.getAll());
+                    break;
+
+                case "event":
                     ui.handleAddEvent(tasks, parts);
-                    saveTasks();
-                }
-                case CMD_DELETE -> {
+                    storage.save(tasks.getAll());
+                    break;
+
+                case "delete":
                     ui.handleDelete(tasks, parts);
-                    saveTasks();
-                }
-                default -> throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    storage.save(tasks.getAll());
+                    break;
+
+                case CMD_FIND:
+                    ui.handleFind(tasks, parts);
+                    break;
+
+                default:
+                    throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
 
             } catch (DukeException e) {
                 ui.showError(e.getMessage());
             }
         }
-    }
-
-    private void saveTasks() throws DukeException {
-        storage.save(tasks.getAll());
     }
 
     public static void main(String[] args) {
