@@ -5,6 +5,11 @@ import goldenknight.task.*;
 
 import java.util.Scanner;
 
+/**
+ * The {@code Ui} class handles all interactions with the user.
+ * It is responsible for displaying messages, reading user input,
+ * and providing feedback on commands executed in the Golden Knight application.
+ */
 public class Ui {
     private static final String LINE = "_______________________________________";
     private static final String CMD_MARK = "mark";
@@ -12,10 +17,17 @@ public class Ui {
 
     private Scanner scanner;
 
+    /**
+     * Constructs a new {@code Ui} instance with a {@link Scanner}
+     * to read user input from the console.
+     */
     public Ui() {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Displays the welcome message when the application starts.
+     */
     public void showWelcome() {
         showLine();
         System.out.println("Hello! I'm the Golden Knight!");
@@ -23,26 +35,49 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Displays the goodbye message when the application exits.
+     */
     public void showGoodbye() {
         showLine();
         System.out.println("Bye. Hope to see you again soon!");
         showLine();
     }
 
+    /**
+     * Reads a full command input from the user.
+     *
+     * @return the input command entered by the user
+     */
     public String readCommand() {
         return scanner.nextLine();
     }
 
+    /**
+     * Displays a separator line to format UI output.
+     */
     public void showLine() {
         System.out.println(LINE);
     }
 
+    /**
+     * Displays an error message to the user.
+     *
+     * @param message the error message to display
+     */
     public void showError(String message) {
         showLine();
         System.out.println(" " + message);
         showLine();
     }
 
+    // --- Handlers ---
+
+    /**
+     * Displays all tasks currently in the task list.
+     *
+     * @param tasks the {@link TaskList} containing tasks to display
+     */
     public void showTaskList(TaskList tasks) {
         if (tasks == null) {
             throw new IllegalArgumentException("Task list cannot be null");
@@ -55,6 +90,14 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Handles marking or unmarking a task as done or not done.
+     *
+     * @param tasks   the {@link TaskList} containing the tasks
+     * @param parts   the split user input command
+     * @param command the command type ("mark" or "unmark")
+     * @throws DukeException if the task number is missing, invalid, or out of range
+     */
     public void handleMarkUnmark(TaskList tasks, String[] parts, String command) throws DukeException {
         int taskNo = parseTaskNumber(parts);
         Task task = tasks.get(taskNo);
@@ -70,6 +113,13 @@ public class Ui {
         }
     }
 
+    /**
+     * Handles adding a new {@link Todo} task.
+     *
+     * @param tasks the {@link TaskList} to add the new task to
+     * @param parts the split user input command
+     * @throws DukeException if the description of the todo is missing or empty
+     */
     public void handleAddTodo(TaskList tasks, String[] parts) throws DukeException {
         validateParts(parts, "The description of a todo cannot be empty.");
         Task task = new Todo(parts[1]);
@@ -77,6 +127,13 @@ public class Ui {
         printAdded(task, tasks.size());
     }
 
+    /**
+     * Handles adding a new {@link Deadline} task.
+     *
+     * @param tasks the {@link TaskList} to add the new task to
+     * @param parts the split user input command
+     * @throws DukeException if the description or deadline is missing or invalid
+     */
     public void handleAddDeadline(TaskList tasks, String[] parts) throws DukeException {
         validateParts(parts, "The deadline command must include a description and /by.");
 
@@ -95,6 +152,13 @@ public class Ui {
         printAdded(task, tasks.size());
     }
 
+    /**
+     * Handles adding a new {@link Event} task.
+     *
+     * @param tasks the {@link TaskList} to add the new task to
+     * @param parts the split user input command
+     * @throws DukeException if the event description, start, or end time is missing or invalid
+     */
     public void handleAddEvent(TaskList tasks, String[] parts) throws DukeException {
         validateParts(parts, "The event command must include /from and /to.");
 
@@ -116,6 +180,13 @@ public class Ui {
         printAdded(task, tasks.size());
     }
 
+    /**
+     * Handles deleting a task from the task list.
+     *
+     * @param tasks the {@link TaskList} containing the tasks
+     * @param parts the split user input command
+     * @throws DukeException if the task number is missing, invalid, or out of range
+     */
     public void handleDelete(TaskList tasks, String[] parts) throws DukeException {
         int taskNo = parseTaskNumber(parts);
         Task removedTask = tasks.delete(taskNo);
@@ -170,6 +241,12 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Prints a confirmation message when a new task is added.
+     *
+     * @param task  the task that was added
+     * @param total the total number of tasks in the list after addition
+     */
     private void printAdded(Task task, int total) {
         printMessage("Got it. I've added this task:", task);
         System.out.println("Now you have " + total + " tasks in the list.");

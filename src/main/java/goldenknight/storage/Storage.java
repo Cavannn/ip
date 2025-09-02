@@ -11,13 +11,35 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles loading and saving of tasks to a file.
+ *
+ * <p>This class is responsible for reading tasks from a file into a list
+ * and writing tasks from a list back to the file. It ensures that the file
+ * exists and creates it if necessary.</p>
+ */
 public class Storage {
+
+    /** Path to the file used for storing tasks. */
     private final String filePath;
 
+    /**
+     * Constructs a Storage object with the specified file path.
+     *
+     * @param filePath The path to the file where tasks are stored.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Loads tasks from the file into an ArrayList.
+     *
+     * <p>If the file does not exist, it will be created. Corrupted lines
+     * or unknown task types are skipped with a warning message.</p>
+     *
+     * @return An ArrayList containing all valid tasks loaded from the file.
+     */
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(this.filePath);
@@ -68,6 +90,14 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the given list of tasks to the file.
+     *
+     * <p>If the file or its parent directories do not exist, they are created.
+     * Each task is written in its file format on a new line.</p>
+     *
+     * @param tasks The list of tasks to be saved.
+     */
     public void save(ArrayList<Task> tasks) {
         File file = new File(this.filePath);
         if (file.getParentFile() != null) {
