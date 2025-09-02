@@ -19,6 +19,7 @@ public enum TaskType {
         if (code == null) {
             throw new IllegalArgumentException("Task type code cannot be null");
         }
+
         return switch (code) {
             case "T" -> TODO;
             case "D" -> DEADLINE;

@@ -23,35 +23,42 @@ public class Task {
         return this.isDone ? "X" : " ";
     }
 
+    @Override
     public String toString() {
-        String var10000 = this.type.getCode();
-        return "[" + var10000 + "][" + this.getStatusIcon() + "] " + this.description;
+        return "[" + this.type.getCode() + "][" + this.getStatusIcon() + "] " + this.description;
     }
 
     public String toFileFormat() {
-        String var10000 = this.type.getCode();
-        return var10000 + " | " + (this.isDone ? "1" : "0") + " | " + this.description;
+        return this.type.getCode() + " | " + (this.isDone ? "1" : "0") + " | " + this.description;
     }
 
+    /**
+     * Factory method to create the correct Task subclass from a file format line.
+     *
+     * @param line The line from file in the format TYPE | isDone | description | [date info]
+     * @return A Task, Todo, Deadline, or Event object.
+     * @throws IllegalArgumentException if the line is invalid or the task type code is unrecognized
+     */
     public static Task fromFileFormat(String line) {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
             throw new IllegalArgumentException("Invalid task format: " + line);
-        } else {
-            TaskType type = TaskType.fromCode(parts[0]);
-            boolean isDone = parts[1].equals("1");
-            String description = parts[2];
-            Task task = new Task(type, description);
-            if (isDone) {
-                task.markAsDone();
-            }
-
-            return task;
         }
+
+        TaskType type = TaskType.fromCode(parts[0]);
+
+        return switch (type) {
+            case TODO -> {
+                Todo todo = new Todo(parts[2]);
+                if ("1".equals(parts[1])) todo.markAsDone();
+                yield todo;
+            }
+            case DEADLINE -> Deadline.fromFileFormat(parts);
+            case EVENT -> Event.fromFileFormat(parts);
+        };
     }
 
     public boolean isDone() {
         return this.isDone;
     }
-
 }

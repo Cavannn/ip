@@ -18,10 +18,16 @@ public class TaskList {
     }
 
     public Task delete(int index) {
+        if (index < 0 || index >= tasks.size()) {
+            throw new IndexOutOfBoundsException("Task index out of range");
+        }
         return tasks.remove(index);
     }
 
     public Task get(int index) {
+        if (index < 0 || index >= tasks.size()) {
+            throw new IndexOutOfBoundsException("Task index out of range");
+        }
         return tasks.get(index);
     }
 
@@ -30,6 +36,6 @@ public class TaskList {
     }
 
     public ArrayList<Task> getAll() {
-        return tasks;
+        return new ArrayList<>(tasks);
     }
 }
