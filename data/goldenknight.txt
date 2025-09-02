@@ -1,4 +1,4 @@
 E | 0 | meeting | 3/4/2020 1000 | 3/4/2020 1900
 D | 0 | return file | 4/12/2023 2000
-T | 0 | clean room
+T | 1 | clean room
 D | 0 | clean room and sleep | 2/2/2022 2000
