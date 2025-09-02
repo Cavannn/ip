@@ -12,6 +12,8 @@ public class GoldenKnight {
     private TaskList tasks;
     private Ui ui;
 
+    private static final String CMD_FIND = "find";
+
     public GoldenKnight(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -29,43 +31,47 @@ public class GoldenKnight {
                 String command = parts[0];
 
                 switch (command) {
-                    case "bye":
-                        ui.showGoodbye();
-                        isExit = true;
-                        break;
+                case "bye":
+                    ui.showGoodbye();
+                    isExit = true;
+                    break;
 
-                    case "list":
-                        ui.showTaskList(tasks);
-                        break;
+                case "list":
+                    ui.showTaskList(tasks);
+                    break;
 
-                    case "mark":
-                    case "unmark":
-                        ui.handleMarkUnmark(tasks, parts, command);
-                        storage.save(tasks.getAll());
-                        break;
+                case "mark":
+                case "unmark":
+                    ui.handleMarkUnmark(tasks, parts, command);
+                    storage.save(tasks.getAll());
+                    break;
 
-                    case "todo":
-                        ui.handleAddTodo(tasks, parts);
-                        storage.save(tasks.getAll());
-                        break;
+                case "todo":
+                    ui.handleAddTodo(tasks, parts);
+                    storage.save(tasks.getAll());
+                    break;
 
-                    case "deadline":
-                        ui.handleAddDeadline(tasks, parts);
-                        storage.save(tasks.getAll());
-                        break;
+                case "deadline":
+                    ui.handleAddDeadline(tasks, parts);
+                    storage.save(tasks.getAll());
+                    break;
 
-                    case "event":
-                        ui.handleAddEvent(tasks, parts);
-                        storage.save(tasks.getAll());
-                        break;
+                case "event":
+                    ui.handleAddEvent(tasks, parts);
+                    storage.save(tasks.getAll());
+                    break;
 
-                    case "delete":
-                        ui.handleDelete(tasks, parts);
-                        storage.save(tasks.getAll());
-                        break;
+                case "delete":
+                    ui.handleDelete(tasks, parts);
+                    storage.save(tasks.getAll());
+                    break;
 
-                    default:
-                        throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                case CMD_FIND:
+                    ui.handleFind(tasks, parts);
+                    break;
+
+                default:
+                    throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
 
             } catch (DukeException e) {

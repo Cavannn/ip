@@ -23,35 +23,57 @@ public class Task {
         return this.isDone ? "X" : " ";
     }
 
-    public String toString() {
-        String var10000 = this.type.getCode();
-        return "[" + var10000 + "][" + this.getStatusIcon() + "] " + this.description;
-    }
-
-    public String toFileFormat() {
-        String var10000 = this.type.getCode();
-        return var10000 + " | " + (this.isDone ? "1" : "0") + " | " + this.description;
-    }
-
-    public static Task fromFileFormat(String line) {
-        String[] parts = line.split(" \\| ");
-        if (parts.length < 3) {
-            throw new IllegalArgumentException("Invalid task format: " + line);
-        } else {
-            TaskType type = TaskType.fromCode(parts[0]);
-            boolean isDone = parts[1].equals("1");
-            String description = parts[2];
-            Task task = new Task(type, description);
-            if (isDone) {
-                task.markAsDone();
-            }
-
-            return task;
-        }
+    public String getDescription() {
+        return this.description;
     }
 
     public boolean isDone() {
         return this.isDone;
     }
 
+    @Override
+    public String toString() {
+        return "[" + this.type.getCode() + "][" + this.getStatusIcon() + "] " + this.description;
+    }
+
+    public String toFileFormat() {
+        return this.type.getCode() + " | " + (this.isDone ? "1" : "0") + " | " + this.description;
+    }
+
+    public static Task fromFileFormat(String line) {
+        String[] parts = line.split(" \\| ");
+        if (parts.length < 3) {
+            throw new IllegalArgumentException("Invalid task format: " + line);
+        }
+
+        TaskType type = TaskType.fromCode(parts[0]);
+        boolean isDone = parts[1].equals("1");
+        String description = parts[2];
+
+        Task task;
+        switch (type) {
+        case TODO:
+            task = new Todo(description);
+            break;
+        case DEADLINE:
+            // deadline info is in parts[3] if available
+            task = new Deadline(description, parts.length > 3 ? parts[3] : "");
+            break;
+        case EVENT:
+            task = new Event(
+                    description,
+                    parts.length > 3 ? parts[3] : "",
+                    parts.length > 4 ? parts[4] : ""
+            );
+            break;
+
+        default:
+            throw new IllegalArgumentException("Unknown task type: " + type);
+        }
+
+        if (isDone) {
+            task.markAsDone();
+        }
+        return task;
+    }
 }
