@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
-    private LocalDateTime byDateTime;
+    private final LocalDateTime byDateTime;
     public static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     public static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy HH:mm");
 
@@ -13,19 +13,23 @@ public class Deadline extends Task {
         this.byDateTime = LocalDateTime.parse(by, INPUT_FORMAT);
     }
 
+    @Override
     public String toString() {
-        String var10000 = super.toString();
-        return var10000 + " (by: " + this.byDateTime.format(OUTPUT_FORMAT) + ")";
+        return super.toString() + " (by: " + this.byDateTime.format(OUTPUT_FORMAT) + ")";
     }
 
+    @Override
     public String toFileFormat() {
-        String var10000 = this.isDone ? "1" : "0";
-        return "D | " + var10000 + " | " + this.description + " | " + this.byDateTime.format(INPUT_FORMAT);
+        return "D | " + (this.isDone ? "1" : "0") + " | " + this.description + " | " + this.byDateTime.format(INPUT_FORMAT);
     }
 
     public static Deadline fromFileFormat(String[] parts) {
+        if (parts.length < 4) {
+            throw new IllegalArgumentException("Invalid file format for Deadline task");
+        }
+
         Deadline d = new Deadline(parts[2], parts[3]);
-        if (parts[1].equals("1")) {
+        if ("1".equals(parts[1])) {
             d.markAsDone();
         }
 

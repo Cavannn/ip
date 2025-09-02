@@ -45,9 +45,12 @@ class EventTest {
 
     @Test
     void fromFileFormat_invalidInput_throwsException() {
-        String[] parts = {"E", "0", "invalid input"};
-        assertThrows(ArrayIndexOutOfBoundsException.class,
-                () -> Event.fromFileFormat(parts),
-                "Invalid input should throw an exception");
+        // Input array shorter than 5 elements
+        String[] invalidParts = {"E", "0", "Description"};
+
+        // Assert that IllegalArgumentException is thrown
+        assertThrows(IllegalArgumentException.class, () -> {
+            Event.fromFileFormat(invalidParts);
+        });
     }
 }

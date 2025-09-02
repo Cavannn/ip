@@ -19,7 +19,7 @@ public class Storage {
     }
 
     public ArrayList<Task> load() {
-        ArrayList<Task> tasks = new ArrayList();
+        ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(this.filePath);
 
         try {
@@ -27,25 +27,22 @@ public class Storage {
                 if (file.getParentFile() != null) {
                     file.getParentFile().mkdirs();
                 }
-
                 file.createNewFile();
                 return tasks;
             }
 
-            Scanner sc = new Scanner(file);
-
-            while(sc.hasNextLine()) {
-                String line = sc.nextLine().trim();
-                if (!line.isEmpty()) {
-                    try {
-                        String[] parts = line.split(" \\| ");
-                        switch (parts[0]) {
+            try (Scanner sc = new Scanner(file)) {
+                while (sc.hasNextLine()) {
+                    String line = sc.nextLine().trim();
+                    if (!line.isEmpty()) {
+                        try {
+                            String[] parts = line.split(" \\| ");
+                            switch (parts[0]) {
                             case "T":
                                 Todo t = new Todo(parts[2]);
-                                if (parts[1].equals("1")) {
+                                if ("1".equals(parts[1])) {
                                     t.markAsDone();
                                 }
-
                                 tasks.add(t);
                                 break;
                             case "D":
@@ -55,39 +52,34 @@ public class Storage {
                                 tasks.add(Event.fromFileFormat(parts));
                                 break;
                             default:
-                                System.out.println("⚠ Unknown task type: " + parts[0]);
+                                System.err.println("⚠ Unknown task type: " + parts[0]);
+                            }
+                        } catch (Exception e) {
+                            System.err.println("⚠ Skipping corrupted line: " + line);
                         }
-                    } catch (Exception var9) {
-                        System.out.println("⚠ Skipping corrupted line: " + line);
                     }
                 }
             }
 
-            sc.close();
         } catch (IOException e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
+            System.err.println("Error loading tasks: " + e.getMessage());
         }
 
         return tasks;
     }
 
     public void save(ArrayList<Task> tasks) {
-        try {
-            if ((new File(this.filePath)).getParentFile() != null) {
-                (new File(this.filePath)).getParentFile().mkdirs();
-            }
-
-            FileWriter fw = new FileWriter(this.filePath);
-
-            for(Task t : tasks) {
-                String var10001 = t.toFileFormat();
-                fw.write(var10001 + System.lineSeparator());
-            }
-
-            fw.close();
-        } catch (IOException e) {
-            System.out.println("Error saving tasks: " + e.getMessage());
+        File file = new File(this.filePath);
+        if (file.getParentFile() != null) {
+            file.getParentFile().mkdirs();
         }
 
+        try (FileWriter fw = new FileWriter(file)) {
+            for (Task t : tasks) {
+                fw.write(t.toFileFormat() + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving tasks: " + e.getMessage());
+        }
     }
 }
