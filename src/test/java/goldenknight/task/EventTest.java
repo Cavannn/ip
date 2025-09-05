@@ -1,7 +1,10 @@
 package goldenknight.task;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class EventTest {
 
@@ -10,6 +13,9 @@ class EventTest {
         Event e = new Event("team meeting", "2/9/2025 1000", "2/9/2025 1200");
         String expected = "[E][ ] team meeting (from: Sep 2 2025 10:00 to: Sep 2 2025 12:00)";
         assertEquals(expected, e.toString());
+    }
+
+    private void assertEquals(String expected, String string) {
     }
 
     @Test

@@ -1,15 +1,20 @@
 package goldenknight.ui;
 
-import goldenknight.exception.DukeException;
-import goldenknight.task.TaskList;
-import goldenknight.task.Todo;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import goldenknight.exception.DukeException;
+import goldenknight.task.TaskList;
+import goldenknight.task.Todo;
 
 class UiTest {
 

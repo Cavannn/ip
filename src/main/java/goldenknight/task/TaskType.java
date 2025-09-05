@@ -49,10 +49,10 @@ public enum TaskType {
         }
 
         return switch (code) {
-            case "T" -> TODO;
-            case "D" -> DEADLINE;
-            case "E" -> EVENT;
-            default -> throw new IllegalArgumentException("Invalid task type code: " + code);
+        case "T" -> TODO;
+        case "D" -> DEADLINE;
+        case "E" -> EVENT;
+        default -> throw new IllegalArgumentException("Invalid task type code: " + code);
         };
     }
 }

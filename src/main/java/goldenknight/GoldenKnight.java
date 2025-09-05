@@ -13,11 +13,11 @@ import goldenknight.ui.Ui;
  */
 public class GoldenKnight {
 
+    private static final String CMD_FIND = "find";
+
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
-
-    private static final String CMD_FIND = "find";
 
     /**
      * Constructs a new {@code GoldenKnight} instance.

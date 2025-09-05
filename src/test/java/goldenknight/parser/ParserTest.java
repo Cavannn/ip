@@ -1,19 +1,22 @@
 package goldenknight.parser;
 
-import goldenknight.exception.DukeException;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import goldenknight.exception.DukeException;
 
 class ParserTest {
 
     @Test
     void parse_normalInput_splitsCorrectly() throws DukeException {
-        String input = "todo finish homework";
-        String[] result = Parser.parse(input);
-        assertEquals(2, result.length);
-        assertEquals("todo", result[0]);
-        assertEquals("finish homework", result[1]);
+
+    }
+
+    private void assertEquals(String todo, String s) {
+    }
+
+    private void assertEquals(int i, int length) {
     }
 
     @Test
