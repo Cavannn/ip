@@ -8,8 +8,6 @@ import java.time.format.DateTimeFormatter;
  * and must be completed by a specific {@link LocalDateTime}.
  */
 public class Deadline extends Task {
-    /** The date and time by which the task must be completed. */
-    private LocalDateTime byDateTime;
 
     /** Input format used when parsing user-provided date and time strings. */
     public static final DateTimeFormatter INPUT_FORMAT =
@@ -18,6 +16,9 @@ public class Deadline extends Task {
     /** Output format used when displaying the deadline in a user-friendly format. */
     public static final DateTimeFormatter OUTPUT_FORMAT =
             DateTimeFormatter.ofPattern("MMM d yyyy HH:mm");
+
+    /** The date and time by which the task must be completed. */
+    private LocalDateTime byDateTime;
 
     /**
      * Creates a new {@code Deadline} task.
@@ -49,7 +50,8 @@ public class Deadline extends Task {
      */
     @Override
     public String toFileFormat() {
-        return "D | " + (this.isDone ? "1" : "0") + " | " + this.description + " | " + this.byDateTime.format(INPUT_FORMAT);
+        return "D | " + (this.isDone ? "1" : "0") + " | "
+                + this.description + " | " + this.byDateTime.format(INPUT_FORMAT);
     }
 
     /**

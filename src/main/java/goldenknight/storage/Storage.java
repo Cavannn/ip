@@ -1,15 +1,15 @@
 package goldenknight.storage;
 
-import goldenknight.task.Deadline;
-import goldenknight.task.Event;
-import goldenknight.task.Task;
-import goldenknight.task.Todo;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import goldenknight.task.Deadline;
+import goldenknight.task.Event;
+import goldenknight.task.Task;
+import goldenknight.task.Todo;
 
 /**
  * Handles loading and saving of tasks to a file.

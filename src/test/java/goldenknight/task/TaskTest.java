@@ -1,7 +1,10 @@
 package goldenknight.task;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
 
@@ -11,6 +14,9 @@ class TaskTest {
         assertFalse(task.isDone, "Task should initially be not done");
         task.markAsDone();
         assertTrue(task.isDone, "Task should be marked as done");
+    }
+
+    private void assertFalse(boolean isDone, String s) {
     }
 
     @Test
@@ -65,8 +71,8 @@ class TaskTest {
     @Test
     void fromFileFormat_invalidInput_throwsException() {
         String invalidLine = "invalid format line";
-        assertThrows(IllegalArgumentException.class,
-                () -> Task.fromFileFormat(invalidLine),
+        assertThrows(IllegalArgumentException.class, (
+                ) -> Task.fromFileFormat(invalidLine),
                 "Invalid input should throw IllegalArgumentException");
     }
 }

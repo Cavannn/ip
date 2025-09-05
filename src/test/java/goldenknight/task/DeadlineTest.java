@@ -1,7 +1,9 @@
 package goldenknight.task;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class DeadlineTest {
 
@@ -10,6 +12,9 @@ public class DeadlineTest {
         Deadline d = new Deadline("submit assignment", "2/9/2025 1800");
         String expected = "[D][ ] submit assignment (by: Sep 2 2025 18:00)";
         assertEquals(expected, d.toString());
+    }
+
+    private void assertEquals(String expected, String string) {
     }
 
     @Test

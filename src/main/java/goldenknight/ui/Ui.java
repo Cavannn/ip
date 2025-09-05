@@ -1,9 +1,13 @@
 package goldenknight.ui;
 
-import goldenknight.exception.DukeException;
-import goldenknight.task.*;
-
 import java.util.Scanner;
+
+import goldenknight.exception.DukeException;
+import goldenknight.task.Deadline;
+import goldenknight.task.Event;
+import goldenknight.task.Task;
+import goldenknight.task.TaskList;
+import goldenknight.task.Todo;
 
 /**
  * The {@code Ui} class handles all interactions with the user.
@@ -220,6 +224,15 @@ public class Ui {
         return taskNo;
     }
 
+    /**
+     * Handles the "find" command by searching for tasks that contain the specified keyword
+     * in their descriptions, and prints the matching tasks to the console.
+     *
+     * @param tasks the {@code TaskList} containing all tasks to search through
+     * @param parts the array of strings representing the user's input command,
+     *              where the keyword should be at index 1
+     * @throws DukeException if the keyword is missing or empty
+     */
     public void handleFind(TaskList tasks, String[] parts) throws DukeException {
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new DukeException("OOPS!!! The find command requires a keyword.");
