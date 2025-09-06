@@ -1,6 +1,5 @@
 E | 1 | meeting | 3/4/2020 1000 | 3/4/2020 1900
 D | 0 | return file | 4/12/2023 2000
-T | 1 | clean room
+T | 0 | clean room
 D | 1 | clean room and sleep | 2/2/2022 2000
 E | 0 | tidy room | 22/1/2000 1600 | 23/1/2000 1500
-T | 0 | eat food

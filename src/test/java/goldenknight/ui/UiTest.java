@@ -1,133 +1,128 @@
 package goldenknight.ui;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import goldenknight.exception.DukeException;
 import goldenknight.task.TaskList;
-import goldenknight.task.Todo;
 
 class UiTest {
 
     private Ui ui;
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
+    private TaskList tasks;
 
     @BeforeEach
     void setUp() {
         ui = new Ui();
-        System.setOut(new PrintStream(outContent));
-    }
-
-    @AfterEach
-    void tearDown() {
-        System.setOut(originalOut);
+        tasks = new TaskList();
     }
 
     @Test
-    void showWelcome_shouldPrintWelcomeMessage() {
-        ui.showWelcome();
-        String output = outContent.toString();
-        assertTrue(output.contains("Hello! I'm the Golden Knight!"));
+    void getWelcomeMessage_shouldContainGreeting() {
+        String msg = ui.getWelcomeMessage();
+        assertTrue(msg.contains("Hello! I'm the Golden Knight!"));
     }
 
     @Test
-    void showGoodbye_shouldPrintGoodbyeMessage() {
-        ui.showGoodbye();
-        String output = outContent.toString();
-        assertTrue(output.contains("Hope to see you again soon!"));
+    void getGoodbyeMessage_shouldContainFarewell() {
+        String msg = ui.getGoodbyeMessage();
+        assertTrue(msg.contains("Bye. Hope to see you again soon!"));
     }
 
     @Test
-    void showError_shouldPrintErrorMessage() {
-        ui.showError("Test error");
-        String output = outContent.toString();
-        assertTrue(output.contains("Test error"));
-    }
-
-    @Test
-    void showTaskList_shouldPrintAllTasks() {
-        TaskList tasks = new TaskList();
-        tasks.add(new Todo("Finish homework"));
-        tasks.add(new Todo("Read book"));
-
-        ui.showTaskList(tasks);
-        String output = outContent.toString();
-        assertTrue(output.contains("Here are the tasks in your list"));
-        assertTrue(output.contains("1. [T][ ] Finish homework"));
-        assertTrue(output.contains("2. [T][ ] Read book"));
-    }
-
-    @Test
-    void readCommand_shouldReadInputCorrectly() {
-        String simulatedInput = "todo Finish homework\n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui uiWithInput = new Ui(); // create after setting System.in
-        String command = uiWithInput.readCommand();
-        assertEquals("todo Finish homework", command);
-    }
-
-    @Test
-    void handleAddTodo_shouldAddTodoCorrectly() throws DukeException {
-        TaskList tasks = new TaskList();
-        String[] parts = {"todo", "Finish homework"};
-
-        ui.handleAddTodo(tasks, parts);
-
+    void addTodoString_shouldAddTodo() throws DukeException {
+        String result = ui.addTodoString(tasks, "Finish homework");
+        assertTrue(result.contains("I've added this task"));
         assertEquals(1, tasks.size());
-        assertEquals("Finish homework", tasks.get(0).toFileFormat().split(" \\| ")[2]);
-        assertTrue(outContent.toString().contains("I've added this task"));
+        assertTrue(tasks.get(0).getDescription().equals("Finish homework"));
     }
 
     @Test
-    void handleMarkUnmark_shouldMarkAndUnmarkTasks() throws DukeException {
-        TaskList tasks = new TaskList();
-        tasks.add(new Todo("Finish homework"));
-
-        // mark task
-        ui.handleMarkUnmark(tasks, new String[]{"mark", "1"}, "mark");
-        assertEquals("X", tasks.get(0).getStatusIcon());
-
-        // unmark task
-        ui.handleMarkUnmark(tasks, new String[]{"unmark", "1"}, "unmark");
-        assertEquals(" ", tasks.get(0).getStatusIcon());
+    void addTodoString_invalidInput_shouldThrow() {
+        DukeException e = assertThrows(DukeException.class, () -> ui.addTodoString(tasks, ""));
+        assertTrue(e.getMessage().contains("cannot be empty"));
     }
 
     @Test
-    void handleDelete_shouldRemoveTask() throws DukeException {
-        TaskList tasks = new TaskList();
-        tasks.add(new Todo("Finish homework"));
-
-        ui.handleDelete(tasks, new String[]{"delete", "1"});
-        assertEquals(0, tasks.size());
-        assertTrue(outContent.toString().contains("I've removed this task"));
+    void addDeadlineString_shouldAddDeadline() throws DukeException {
+        String input = "Submit report /by 6/9/2025 2359";
+        String result = ui.addDeadlineString(tasks, input);
+        assertTrue(result.contains("I've added this task"));
+        assertEquals(1, tasks.size());
+        assertTrue(tasks.get(0).getDescription().equals("Submit report"));
     }
 
     @Test
-    void handleAddDeadline_invalidInput_shouldThrowException() {
-        TaskList tasks = new TaskList();
-        String[] parts = {"deadline", "Do homework"};
-
-        Exception e = assertThrows(DukeException.class, () -> ui.handleAddDeadline(tasks, parts));
+    void addDeadlineString_invalidInput_shouldThrow() {
+        String input = "Submit report";
+        DukeException e = assertThrows(DukeException.class, () -> ui.addDeadlineString(tasks, input));
         assertTrue(e.getMessage().contains("/by"));
     }
 
     @Test
-    void handleAddEvent_invalidInput_shouldThrowException() {
-        TaskList tasks = new TaskList();
-        String[] parts = {"event", "Project meeting"};
+    void addEventString_shouldAddEvent() throws DukeException {
+        String input = "Team meeting /from 6/9/2025 1000 /to 6/9/2025 1100";
+        String result = ui.addEventString(tasks, input);
+        assertTrue(result.contains("I've added this task"));
+        assertEquals(1, tasks.size());
+        assertTrue(tasks.get(0).getDescription().equals("Team meeting"));
+    }
 
-        Exception e = assertThrows(DukeException.class, () -> ui.handleAddEvent(tasks, parts));
+    @Test
+    void addEventString_invalidInput_shouldThrow() {
+        String input = "Team meeting";
+        DukeException e = assertThrows(DukeException.class, () -> ui.addEventString(tasks, input));
         assertTrue(e.getMessage().contains("/from") && e.getMessage().contains("/to"));
+    }
+
+    @Test
+    void markTaskString_shouldMarkTask() throws DukeException {
+        ui.addTodoString(tasks, "Finish homework");
+        String result = ui.markTaskString(tasks, 0);
+        assertTrue(result.contains("marked this task as done"));
+        assertEquals("X", tasks.get(0).getStatusIcon());
+    }
+
+    @Test
+    void unmarkTaskString_shouldUnmarkTask() throws DukeException {
+        ui.addTodoString(tasks, "Finish homework");
+        ui.markTaskString(tasks, 0);
+        String result = ui.unmarkTaskString(tasks, 0);
+        assertTrue(result.contains("marked this task as not done yet"));
+        assertEquals(" ", tasks.get(0).getStatusIcon());
+    }
+
+    @Test
+    void markTaskString_invalidIndex_shouldThrow() {
+        DukeException e = assertThrows(DukeException.class, () -> ui.markTaskString(tasks, 0));
+        assertTrue(e.getMessage().contains("out of range"));
+    }
+
+    @Test
+    void deleteTaskString_shouldDeleteTask() throws DukeException {
+        ui.addTodoString(tasks, "Finish homework");
+        String result = ui.deleteTaskString(tasks, 0);
+        assertTrue(result.contains("I've removed this task"));
+        assertEquals(0, tasks.size());
+    }
+
+    @Test
+    void findTasksString_shouldFindMatchingTasks() throws DukeException {
+        ui.addTodoString(tasks, "Finish homework");
+        ui.addTodoString(tasks, "Read book");
+        String result = ui.findTasksString(tasks, "Read");
+        assertTrue(result.contains("Read book"));
+        assertTrue(!result.contains("Finish homework"));
+    }
+
+    @Test
+    void findTasksString_noMatch_shouldReturnMessage() throws DukeException {
+        ui.addTodoString(tasks, "Finish homework");
+        String result = ui.findTasksString(tasks, "Play");
+        assertTrue(result.contains("No matching tasks found"));
     }
 }
