@@ -19,7 +19,7 @@ class GoldenKnightTest {
     @Test
     void getWelcomeMessage_shouldContainGreeting() {
         String welcome = goldenKnight.getWelcomeMessage();
-        assertTrue(welcome.contains("Hello! I'm the Golden Knight!"));
+        assertTrue(welcome.contains("Hello! I'm the Golden Knight HEEHEEHEEHAA!"));
     }
 
     @Test

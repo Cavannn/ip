@@ -24,7 +24,7 @@ class UiTest {
     @Test
     void getWelcomeMessage_shouldContainGreeting() {
         String msg = ui.getWelcomeMessage();
-        assertTrue(msg.contains("Hello! I'm the Golden Knight!"));
+        assertTrue(msg.contains("Hello! I'm the Golden Knight HEEHEEHEEHAA!"));
     }
 
     @Test

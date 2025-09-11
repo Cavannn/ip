@@ -48,9 +48,9 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "duke"
-    archiveClassifier = null
-    archiveFileName = 'goldenknight.jar'
+    archiveBaseName.set("goldenknight")
+    archiveClassifier.set("all")
+    archiveVersion.set("")
 }
 
 run{

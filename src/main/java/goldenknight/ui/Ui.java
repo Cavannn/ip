@@ -19,7 +19,8 @@ public class Ui {
     // -------------------- Welcome / Goodbye --------------------
 
     public String getWelcomeMessage() {
-        return LINE + "\nHello! I'm the Golden Knight!\nWhat can I do for you?\n" + LINE;
+        return LINE + "\nHello! I'm the Golden Knight HEEHEEHEEHAA!\n" +
+                "What can I do for you?\n" + LINE;
     }
 
     public String getGoodbyeMessage() {
