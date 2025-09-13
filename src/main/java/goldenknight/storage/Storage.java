@@ -44,51 +44,63 @@ public class Storage {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(this.filePath);
 
+        // Create file if it doesn't exist
         try {
             if (!file.exists()) {
                 if (file.getParentFile() != null) {
                     file.getParentFile().mkdirs();
                 }
                 file.createNewFile();
-                return tasks;
+                return tasks; // early return avoids deep nesting
             }
+        } catch (IOException e) {
+            System.err.println("Error creating file: " + e.getMessage());
+            return tasks;
+        }
 
-            try (Scanner sc = new Scanner(file)) {
-                while (sc.hasNextLine()) {
-                    String line = sc.nextLine().trim();
-                    if (!line.isEmpty()) {
-                        try {
-                            String[] parts = line.split(" \\| ");
-                            switch (parts[0]) {
-                            case "T":
-                                Todo t = new Todo(parts[2]);
-                                if ("1".equals(parts[1])) {
-                                    t.markAsDone();
-                                }
-                                tasks.add(t);
-                                break;
-                            case "D":
-                                tasks.add(Deadline.fromFileFormat(parts));
-                                break;
-                            case "E":
-                                tasks.add(Event.fromFileFormat(parts));
-                                break;
-                            default:
-                                System.err.println("⚠ Unknown task type: " + parts[0]);
-                            }
-                        } catch (Exception e) {
-                            System.err.println("⚠ Skipping corrupted line: " + line);
-                        }
-                    }
+        // Read and parse tasks from file
+        try (Scanner sc = new Scanner(file)) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine().trim();
+                if (line.isEmpty()) continue; // skip empty lines
+
+                try {
+                    Task task = parseLine(line);
+                    if (task != null) tasks.add(task);
+                } catch (Exception e) {
+                    System.err.println("⚠ Skipping corrupted line: " + line);
                 }
             }
-
         } catch (IOException e) {
             System.err.println("Error loading tasks: " + e.getMessage());
         }
 
         return tasks;
     }
+
+    /**
+     * Parses a single line from the task file into a Task object.
+     *
+     * @param line the line to parse
+     * @return a Task object, or null if the type is unknown
+     */
+    private Task parseLine(String line) {
+        String[] parts = line.split(" \\| ");
+        switch (parts[0]) {
+        case "T":
+            Todo t = new Todo(parts[2]);
+            if ("1".equals(parts[1])) t.markAsDone();
+            return t;
+        case "D":
+            return Deadline.fromFileFormat(parts);
+        case "E":
+            return Event.fromFileFormat(parts);
+        default:
+            System.err.println("⚠ Unknown task type: " + parts[0]);
+            return null;
+        }
+    }
+
 
     /**
      * Saves the given list of tasks to the file.
