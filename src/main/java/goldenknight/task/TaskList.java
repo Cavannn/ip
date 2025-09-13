@@ -16,6 +16,7 @@ public class TaskList {
      * @param tasks the list of tasks to initialize with
      */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "Task list provided to constructor should not be null";
         this.tasks = tasks;
     }
 
@@ -24,6 +25,7 @@ public class TaskList {
      */
     public TaskList() {
         this.tasks = new ArrayList<>();
+        assert this.tasks != null : "Tasks list should be initialized";
     }
 
     /**
@@ -32,7 +34,9 @@ public class TaskList {
      * @param task the task to add
      */
     public void add(Task task) {
+        assert task != null : "Task to add should not be null";
         tasks.add(task);
+        assert tasks.contains(task) : "Task should be added to the list";
     }
 
     /**
@@ -43,10 +47,10 @@ public class TaskList {
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     public Task delete(int index) {
-        if (index < 0 || index >= tasks.size()) {
-            throw new IndexOutOfBoundsException("Task index out of range");
-        }
-        return tasks.remove(index);
+        assert index >= 0 && index < tasks.size() : "Index for delete should be within bounds";
+        Task removed = tasks.remove(index);
+        assert removed != null : "Deleted task should not be null";
+        return removed;
     }
 
     /**
@@ -57,10 +61,10 @@ public class TaskList {
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     public Task get(int index) {
-        if (index < 0 || index >= tasks.size()) {
-            throw new IndexOutOfBoundsException("Task index out of range");
-        }
-        return tasks.get(index);
+        assert index >= 0 && index < tasks.size() : "Index for get should be within bounds";
+        Task retrieved = tasks.get(index);
+        assert retrieved != null : "Retrieved task should not be null";
+        return retrieved;
     }
 
     /**
@@ -69,6 +73,7 @@ public class TaskList {
      * @return the size of the task list
      */
     public int size() {
+        assert tasks != null : "Tasks list should not be null when checking size";
         return tasks.size();
     }
 
@@ -78,6 +83,7 @@ public class TaskList {
      * @return an {@link ArrayList} containing all tasks
      */
     public ArrayList<Task> getAll() {
+        assert tasks != null : "Tasks list should not be null when getting all tasks";
         return new ArrayList<>(tasks);
     }
 
@@ -89,8 +95,10 @@ public class TaskList {
      *         include the specified keyword
      */
     public ArrayList<Task> find(String keyword) {
+        assert keyword != null && !keyword.isBlank() : "Keyword for find should not be null or blank";
         ArrayList<Task> results = new ArrayList<>();
         for (Task task : tasks) {
+            assert task != null : "Task in list should not be null";
             if (task.getDescription().contains(keyword)) {
                 results.add(task);
             }
