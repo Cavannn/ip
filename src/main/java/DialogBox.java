@@ -12,6 +12,28 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+/**
+ * The {@code DialogBox} class represents a custom JavaFX UI component
+ * used to display dialog messages in the GoldenKnight application.
+ * <p>
+ * Each dialog box consists of:
+ * <ul>
+ *     <li>A {@link Label} containing the text message.</li>
+ *     <li>An {@link ImageView} displaying the speaker's avatar.</li>
+ * </ul>
+ * This class supports creating both user and Duke/GoldenKnight dialog boxes.
+ * <p>
+ * Key features:
+ * <ul>
+ *     <li>{@link #getUserDialog(String, Image)} – creates a dialog box for user input.</li>
+ *     <li>{@link #getDukeDialog(String, Image)} – creates a dialog box for Duke/GoldenKnight responses,
+ *     with the image on the left and styled appropriately.</li>
+ *     <li>{@link #flip()} – reorders the dialog box so the avatar appears on the opposite side.</li>
+ *     <li>{@link #changeDialogStyle(String)} – applies different CSS styles based on command type.</li>
+ * </ul>
+ * <p>
+ * The layout for this component is defined in {@code DialogBox.fxml}.
+ */
 public class DialogBox extends HBox {
 
     @FXML

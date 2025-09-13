@@ -25,6 +25,8 @@ public class Task {
      * @param description the task description
      */
     public Task(TaskType type, String description) {
+        assert type != null : "Task type should not be null";
+        assert description != null && !description.isBlank() : "Task description should not be null or blank";
         this.type = type;
         this.description = description;
         this.isDone = false;
@@ -35,6 +37,7 @@ public class Task {
      */
     public void markAsDone() {
         this.isDone = true;
+        assert this.isDone : "Task should be marked as done";
     }
 
     /**
@@ -42,6 +45,7 @@ public class Task {
      */
     public void markAsNotDone() {
         this.isDone = false;
+        assert !this.isDone : "Task should be marked as not done";
     }
 
     /**
@@ -54,6 +58,7 @@ public class Task {
     }
 
     public String getDescription() {
+        assert description != null : "Task description should not be null";
         return this.description;
     }
 
@@ -69,6 +74,8 @@ public class Task {
      */
     @Override
     public String toString() {
+        assert type != null : "Task type should not be null when generating string";
+        assert description != null : "Task description should not be null when generating string";
         return "[" + this.type.getCode() + "][" + this.getStatusIcon() + "] " + this.description;
     }
 
@@ -78,6 +85,8 @@ public class Task {
      * @return a string formatted for saving the task to a file
      */
     public String toFileFormat() {
+        assert type != null : "Task type should not be null when saving to file";
+        assert description != null : "Task description should not be null when saving to file";
         return this.type.getCode() + " | " + (this.isDone ? "1" : "0") + " | " + this.description;
     }
 
@@ -89,14 +98,19 @@ public class Task {
      * @throws IllegalArgumentException if the format is invalid
      */
     public static Task fromFileFormat(String line) {
+        assert line != null && !line.isBlank() : "Input line for fromFileFormat should not be null or blank";
+
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
             throw new IllegalArgumentException("Invalid task format: " + line);
         }
 
         TaskType type = TaskType.fromCode(parts[0]);
+        assert type != null : "TaskType parsed from file should not be null";
+
         boolean isDone = parts[1].equals("1");
         String description = parts[2];
+        assert description != null : "Task description parsed from file should not be null";
 
         Task task;
         switch (type) {
@@ -104,7 +118,6 @@ public class Task {
             task = new Todo(description);
             break;
         case DEADLINE:
-            // deadline info is in parts[3] if available
             task = new Deadline(description, parts.length > 3 ? parts[3] : "");
             break;
         case EVENT:
@@ -114,7 +127,6 @@ public class Task {
                     parts.length > 4 ? parts[4] : ""
             );
             break;
-
         default:
             throw new IllegalArgumentException("Unknown task type: " + type);
         }
@@ -122,6 +134,7 @@ public class Task {
         if (isDone) {
             task.markAsDone();
         }
+        assert task != null : "Reconstructed task should not be null";
         return task;
     }
 }
