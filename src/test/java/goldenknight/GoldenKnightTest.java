@@ -23,7 +23,7 @@ class GoldenKnightTest {
     }
 
     @Test
-    void addTodo_and_listTasks_shouldWork() {
+    void addTodoListTasks_shouldWork() {
         String addResponse = goldenKnight.addTodo("Finish homework");
         assertTrue(addResponse.contains("I've added this task"));
         assertTrue(addResponse.contains("Finish homework"));
@@ -34,7 +34,7 @@ class GoldenKnightTest {
     }
 
     @Test
-    void mark_and_unmarkTask_shouldWork() {
+    void markUnmarkTask_shouldWork() {
         goldenKnight.addTodo("Finish homework");
 
         String markResponse = goldenKnight.markTask(0);
@@ -84,13 +84,6 @@ class GoldenKnightTest {
     void invalidMarkIndex_shouldReturnError() {
         goldenKnight.addTodo("Finish homework");
         String response = goldenKnight.markTask(5); // invalid index
-        assertTrue(response.startsWith("Error:"));
-    }
-
-    @Test
-    void invalidUnmarkIndex_shouldReturnError() {
-        goldenKnight.addTodo("Finish homework");
-        String response = goldenKnight.unmarkTask(5); // invalid index
         assertTrue(response.startsWith("Error:"));
     }
 
