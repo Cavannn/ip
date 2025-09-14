@@ -69,4 +69,10 @@ public class Event extends Task {
         }
         return e;
     }
+
+    // needed for reminder class
+    public LocalDateTime getToDateTime() {
+        return this.toDateTime;
+    }
+
 }

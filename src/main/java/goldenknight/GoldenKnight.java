@@ -183,4 +183,18 @@ public class GoldenKnight {
             return "Error: " + e.getMessage();
         }
     }
+
+    /**
+     * Returns a reminder for the next upcoming task.
+     *
+     * <p>Uses the UI component to generate a message about the incomplete task
+     * with the earliest due date or time. If no tasks are pending, an appropriate
+     * message is returned.</p>
+     *
+     * @return A string containing the next task reminder.
+     */
+    public String getNextTaskReminder() {
+        return ui.getNextTaskReminder(tasks);
+    }
+
 }

@@ -62,11 +62,14 @@ public class Storage {
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
-                if (line.isEmpty()) continue; // skip empty lines
-
+                if (line.isEmpty()) {
+                    continue;
+                }
                 try {
                     Task task = parseLine(line);
-                    if (task != null) tasks.add(task);
+                    if (task != null) {
+                        tasks.add(task);
+                    }
                 } catch (Exception e) {
                     System.err.println("⚠ Skipping corrupted line: " + line);
                 }
@@ -89,7 +92,9 @@ public class Storage {
         switch (parts[0]) {
         case "T":
             Todo t = new Todo(parts[2]);
-            if ("1".equals(parts[1])) t.markAsDone();
+            if ("1".equals(parts[1])) {
+                t.markAsDone();
+            }
             return t;
         case "D":
             return Deadline.fromFileFormat(parts);

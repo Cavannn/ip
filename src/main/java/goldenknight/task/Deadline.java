@@ -72,4 +72,10 @@ public class Deadline extends Task {
         }
         return d;
     }
+
+    // needed for reminder class
+    public LocalDateTime getByDateTime() {
+        return this.byDateTime;
+    }
+
 }

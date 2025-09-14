@@ -42,6 +42,14 @@ public class MainWindow extends AnchorPane {
         dialogContainer.getChildren().addAll(
                 DialogBox.getDukeDialog(goldenKnight.getWelcomeMessage(), botImage)
         );
+
+        // Show next task reminder
+        String reminderMessage = goldenKnight.getNextTaskReminder();
+        if (reminderMessage != null && !reminderMessage.isBlank()) {
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getDukeDialog(reminderMessage, botImage)
+            );
+        }
     }
 
     /**
