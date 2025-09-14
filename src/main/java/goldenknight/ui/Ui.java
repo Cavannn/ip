@@ -3,9 +3,11 @@ package goldenknight.ui;
 import goldenknight.exception.DukeException;
 import goldenknight.task.Deadline;
 import goldenknight.task.Event;
+import goldenknight.task.Reminder;
 import goldenknight.task.Task;
 import goldenknight.task.TaskList;
 import goldenknight.task.Todo;
+
 
 /**
  * GUI-ready version of Ui.
@@ -209,6 +211,17 @@ public class Ui {
         }
         sb.append(LINE);
         return sb.toString();
+    }
+
+    /**
+     * Returns a message showing the next upcoming task (deadline or event).
+     *
+     * @param tasks the TaskList containing all tasks
+     * @return a reminder string
+     */
+    public String getNextTaskReminder(TaskList tasks) {
+        // Assuming TaskList has a method getAll() that returns ArrayList<Task>
+        return LINE + "\n" + Reminder.reminder(tasks.getAll()) + "\n" + LINE;
     }
 
 }
