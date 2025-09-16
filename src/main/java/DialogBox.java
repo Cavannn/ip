@@ -57,6 +57,8 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+        // Default style for all dialogs
+        dialog.getStyleClass().add("normal-label");
     }
 
     /**
@@ -93,6 +95,16 @@ public class DialogBox extends HBox {
     public static DialogBox getDukeDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
+        return db;
+    }
+
+    /**
+     * Creates a Duke/GoldenKnight dialog box styled as an error.
+     */
+    public static DialogBox getErrorDialog(String text, Image img) {
+        var db = new DialogBox(text, img);
+        db.flip();
+        db.dialog.getStyleClass().add("error-label");
         return db;
     }
 }

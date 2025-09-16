@@ -1,0 +1,35 @@
+/* Normal user messages */
+.normal-label {
+    -fx-text-fill: black;
+    -fx-font-weight: normal;
+    -fx-padding: 6;
+}
+
+/* Duke reply messages */
+.reply-label {
+    -fx-text-fill: black;
+    -fx-font-weight: normal;
+    -fx-padding: 6;
+}
+
+/* Error messages */
+.error-label {
+    -fx-text-fill: red;
+    -fx-font-weight: normal;
+    -fx-padding: 6;
+}
+
+/* Optional: AddCommand, DeleteCommand, MarkedCommand */
+.add-label {
+    -fx-text-fill: green;
+}
+
+.marked-label {
+    -fx-text-fill: blue;
+}
+
+.delete-label {
+    -fx-text-fill: orange;
+}
+
+

@@ -22,6 +22,8 @@ public class MainWindow extends AnchorPane {
 
     private GoldenKnight goldenKnight;
 
+    private static final String LINE = "_______________________________________";
+
     private final Image userImage = new Image(
             this.getClass().getResourceAsStream("/images/princesstower.png"));
     private final Image botImage = new Image(
@@ -106,9 +108,13 @@ public class MainWindow extends AnchorPane {
         }
 
         // Add user input and GoldenKnight response to the dialog container
+        boolean isError = response.startsWith("Error:") || response.startsWith("I don't understand");
+        if (isError) {
+            response = LINE + "\n" + response + "\n" + LINE;
+        }
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, botImage)
+                isError ? DialogBox.getErrorDialog(response, botImage) : DialogBox.getDukeDialog(response, botImage)
         );
 
         // Clear user input

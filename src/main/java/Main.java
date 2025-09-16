@@ -25,6 +25,8 @@ public class Main extends Application {
             controller.setGoldenKnight(goldenKnight);
 
             Scene scene = new Scene(root);
+            // Attach stylesheet for dialog styles (normal, reply, error, etc.)
+            scene.getStylesheets().add(Main.class.getResource("/styles.css").toExternalForm());
             stage.setScene(scene);
 
             stage.setTitle("GoldenKnight Chatbot");
