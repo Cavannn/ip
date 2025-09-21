@@ -97,6 +97,9 @@ public class MainWindow extends AnchorPane {
             case "find":
                 response = goldenKnight.findTasks(parts.length > 1 ? parts[1] : "");
                 break;
+            case "help":
+                response = goldenKnight.getHelpMessage();
+                break;
             case "bye":
                 response = goldenKnight.getGoodbyeMessage();
                 break;

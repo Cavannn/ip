@@ -197,4 +197,14 @@ public class GoldenKnight {
         return ui.getNextTaskReminder(tasks);
     }
 
+    /**
+     * Returns a formatted help message listing all available commands and their formats.
+     *
+     * @return a string containing all available commands and their usage
+     */
+    public String getHelpMessage() {
+        assert ui != null : "UI must not be null when getting help message";
+        return ui.getHelpMessage();
+    }
+
 }

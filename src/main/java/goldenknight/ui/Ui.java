@@ -224,4 +224,57 @@ public class Ui {
         return LINE + "\n" + Reminder.reminder(tasks.getAll()) + "\n" + LINE;
     }
 
+    /**
+     * Returns a formatted help message listing all available commands and their formats.
+     *
+     * @return a formatted string containing all available commands and their usage
+     */
+    public String getHelpMessage() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(LINE).append("\n");
+        sb.append("Here are all the available commands:\n\n");
+        
+        sb.append("LIST - View all your tasks\n");
+        sb.append("   Format: list\n\n");
+        
+        sb.append("TODO - Add a simple task\n");
+        sb.append("   Format: todo <description>\n");
+        sb.append("   Example: todo Buy groceries\n\n");
+        
+        sb.append("DEADLINE - Add a task with a deadline\n");
+        sb.append("   Format: deadline <description> /by <date>\n");
+        sb.append("   Example: deadline Submit report /by 2024-12-31\n\n");
+        
+        sb.append("EVENT - Add an event with start and end times\n");
+        sb.append("   Format: event <description> /from <start> /to <end>\n");
+        sb.append("   Example: event Team meeting /from 2pm /to 3pm\n\n");
+        
+        sb.append("MARK - Mark a task as completed\n");
+        sb.append("   Format: mark <task_number>\n");
+        sb.append("   Example: mark 1\n\n");
+        
+        sb.append("UNMARK - Mark a task as not completed\n");
+        sb.append("   Format: unmark <task_number>\n");
+        sb.append("   Example: unmark 1\n\n");
+        
+        sb.append("DELETE - Remove a task from your list\n");
+        sb.append("   Format: delete <task_number>\n");
+        sb.append("   Example: delete 1\n\n");
+        
+        sb.append("FIND - Search for tasks containing a keyword\n");
+        sb.append("   Format: find <keyword>\n");
+        sb.append("   Example: find meeting\n\n");
+        
+        sb.append("HELP - Show this help message\n");
+        sb.append("   Format: help\n\n");
+        
+        sb.append("BYE - Exit the application\n");
+        sb.append("   Format: bye\n\n");
+        
+        sb.append("Tip: Task numbers start from 1 and can be found using the 'list' command!\n");
+        sb.append(LINE);
+        
+        return sb.toString();
+    }
+
 }
