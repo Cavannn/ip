@@ -1,2 +1,5 @@
-D | 0 | clean room | 2/10/2025 1800
+D | 1 | clean room | 2/10/2025 1800
 D | 0 | clean floor | 1/10/2025 1900
+T | 1 | clean room
+D | 0 | clean room | 2/10/2025 1800
+E | 0 | clean room | 2/10/2025 1600 | 2/10/2025 2000
