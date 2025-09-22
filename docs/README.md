@@ -67,7 +67,7 @@ Now you have 3 task in the list.
 _______________________________________
 ```
 
-## Marking Tasks
+## Marking Task
 
 GoldenKnight allows you to mark any task as completed, which updates it status from [ ] to [X].
 
@@ -84,7 +84,7 @@ Nice! I've marked this task as done:
 _______________________________________
 ```
 
-## Unmarking Tasks
+## Unmarking Task
 
 GoldenKnight allows you to unmark any task as uncompleted, which updates its status from [X] to [ ].
 
