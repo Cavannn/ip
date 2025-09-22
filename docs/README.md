@@ -167,6 +167,7 @@ To exit the app, please click the `x` button in the top-right corner of the appl
 
 1. Using the command `bye` does not bring the user out of the application. The remedy is to link this command
 to exiting this application.
+2. UI formatting issue when using underscores as it may come across as ugly. The remedy is to use styling.
 
 ## Command Summary
 
