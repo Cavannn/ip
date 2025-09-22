@@ -163,6 +163,11 @@ _______________________________________
 
 To exit the app, please click the `x` button in the top-right corner of the application window.
 
+## Known Issues
+
+1. Using the command `bye` does not bring the user out of the application. The remedy is to link this command
+to exiting this application.
+
 ## Command Summary
 
 | Action                | Format / Arguments                    | Example Usage                                              | Description                                    |
