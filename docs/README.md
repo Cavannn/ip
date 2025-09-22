@@ -3,8 +3,8 @@
 ![GoldenKnight UI](Ui.png)
 
 GoldenKnight Chat is your personal **task management chatbot assistant** 🛡️.  
-It helps you keep track of tasks, deadlines, and reminders, all from the convenience of a Command Line Interface (CLI) 
-with a simple Graphical User Interface (GUI).
+It helps you keep track of tasks, deadlines, events, and reminders, all from the convenience of a 
+Command Line Interface (CLI) with a simple Graphical User Interface (GUI).
 
 ## Adding Todo Tasks
 
