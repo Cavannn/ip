@@ -159,6 +159,10 @@ Here are the matching tasks in your list:
 _______________________________________
 ```
 
+## Exiting the Application
+
+To exit the app, please click the `x` button in the top-right corner of the application window.
+
 ## Command Summary
 
 | Action                | Format / Arguments                    | Example Usage                                              | Description                                    |
